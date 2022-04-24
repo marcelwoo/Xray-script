@@ -210,7 +210,7 @@ getData() {
 			CERT_FILE="/usr/local/etc/xray/${DOMAIN}.pem"
 			KEY_FILE="/usr/local/etc/xray/${DOMAIN}.key"
 		else
-			resolve=$(curl -sm8 ipget.net/?ip=${DOMAIN})
+			resolve=$(ping "${DOMAIN}" -c 1 | sed '1{s/[^(]*(//;s/).*//;q}')
 			if [[ $resolve != $IP ]]; then
 				yellow "${DOMAIN} 解析结果：${resolve}"
 				red "域名未解析到当前服务器IP(${IP})！"
